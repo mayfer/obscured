@@ -11,7 +11,7 @@ function getPageScroll() {
       yScroll = document.body.scrollTop;
       xScroll = document.body.scrollLeft;
     }
-    return new Array(xScroll,yScroll)
+    return {x: xScroll, y: yScroll}
 }
 
 $(document).ready(function(){
@@ -42,17 +42,16 @@ $(document).ready(function(){
 		context.filStyle = 'black';
 		context.fillRect(0, 0, width, height);
 
+		var radius = 100;
 		$(canvas_elem).parent().bind('mousemove', function(e){
-			var parentOffset = $(this).offset(); 
-			//or $(this).offset(); if you really just want the current element's offset
 			scroll = getPageScroll();
-			var relX = e.pageX - scroll[0];
-			var relY = e.pageY - scroll[1];
+			var relX = e.pageX - scroll.x;
+			var relY = e.pageY - scroll.y;
 
 			context.fillRect(0, 0, width, height);
 			context.save();
 			context.beginPath();
-			context.arc(relX, relY, 100, 0, 2 * Math.PI, true);
+			context.arc(relX, relY, radius, 0, 2 * Math.PI, true);
 			context.clip();
 			context.clearRect(0, 0, width, height);
 			context.restore();
